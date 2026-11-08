@@ -17,15 +17,15 @@ RUN npm install -g pnpm@10
 WORKDIR /workspace
 
 # Evitar el uso de la caché para asegurar que descargue tus últimos archivos
-ARG CACHE_BUST=6
+ARG CACHE_BUST=7
 RUN git clone https://github.com/DIAZGZA/alexa_emergency_addon .
 
 # Moverse exactamente a la carpeta donde residen tu package.json y tu directorio app/
 WORKDIR /workspace/alexa_emergency
 
-# Instalar módulos autorizando los scripts de construcción externos requeridos y compilar Next.js
+# Forzar la aprobación de ejecuciones de scripts durante la instalación limpia de dependencias
 RUN pnpm config set side-effects-cache false && \
-    pnpm install --only-built-dependencies || pnpm install --no-frozen-lockfile && \
+    pnpm install --no-frozen-lockfile --only-allow-built-dependencies && \
     pnpm build
 
 # Exponer el puerto por defecto de Next.js
