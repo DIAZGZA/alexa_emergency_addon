@@ -16,10 +16,14 @@ RUN npm install -g pnpm@10
 # Establecer el directorio de trabajo del contenedor
 WORKDIR /app
 
-# Clonar tu repositorio público completo de Alexa
+# Usamos un argumento con valor aleatorio para romper la caché de este paso obligatoriamente
+ARG CACHE_BUST=1
 RUN git clone https://github.com/DIAZGZA/alexa_emergency_addon .
 
-# Instalar módulos de Node y compilar Next.js (Se ejecuta directo en /app)
+# Cambiar al directorio interno donde reside el código de la app Node
+WORKDIR /app/alexa_emergency
+
+# Instalar módulos de Node y compilar Next.js
 RUN pnpm install && pnpm build
 
 # Exponer el puerto por defecto de Next.js
