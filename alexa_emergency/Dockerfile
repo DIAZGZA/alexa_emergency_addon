@@ -13,21 +13,21 @@ RUN apk add --no-cache \
 # Instalar pnpm 10 de manera global
 RUN npm install -g pnpm@10
 
-# Establecer el directorio de trabajo del contenedor
-WORKDIR /app
+# Establecer el directorio base dentro del contenedor
+WORKDIR /workspace
 
-# Descargar el repositorio rompiendo la caché para obtener los nuevos archivos
-ARG CACHE_BUST=3
+# Evitar el uso de la caché para asegurar que descargue tus últimos archivos
+ARG CACHE_BUST=5
 RUN git clone https://github.com/DIAZGZA/alexa_emergency_addon .
 
-# Moverse a la carpeta interna donde acabas de subir el proyecto Next.js
-WORKDIR /app/alexa_emergency
+# CAMBIO CRÍTICO: Moverse exactamente a la carpeta donde residen tu package.json y tu directorio app/
+WORKDIR /workspace/alexa_emergency
 
-# Instalar módulos de Node y compilar Next.js
+# Instalar módulos de Node y ejecutar la compilación de Next.js
 RUN pnpm install && pnpm build
 
 # Exponer el puerto por defecto de Next.js
 EXPOSE 3000
 
-# Script de arranque
+# Script de inicio que mapea las opciones de Home Assistant al .env.local de tu Next.js
 CMD ["/bin/bash", "-c", "if [ -f /data/options.json ]; then jq -r 'to_entries | .[] | \"\\(.key)=\\(.value)\"' /data/options.json > .env.local; fi && pnpm dev"]
