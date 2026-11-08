@@ -1,0 +1,27 @@
+name: "Alexa Emergency System"
+version: "1.0.0"
+slug: "alexa_emergency_system"
+description: "Asistente de seguridad que detecta caídas y alertas usando el micrófono"
+url: "https://github.com/DIAZGZA/Alexa-Emergency-Addon"
+arch:
+  - amd64
+  - armv7
+  - aarch64
+init: false
+ports:
+  3000/tcp: 3000
+ingress: true
+ingress_port: 3000
+panel: true
+homeassistant_api: true
+audio: true
+startup: "services"
+options:
+  NOTIFIER_PROVIDER: "local"
+schema:
+  NOTIFIER_PROVIDER: list(local|telegram)?
+  TELEGRAM_BOT_TOKEN: str?
+  TELEGRAM_BOT_USERNAME: str?
+  TELEGRAM_WEBHOOK_SECRET: str?
+  GROQ_API_KEY: str?
+  ANTHROPIC_API_KEY: str?
