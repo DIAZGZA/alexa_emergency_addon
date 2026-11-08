@@ -19,14 +19,11 @@ WORKDIR /app
 # Clonar tu repositorio público completo de Alexa
 RUN git clone https://github.com/DIAZGZA/alexa_emergency_addon .
 
-# CAMBIO CLAVE: Entrar a la subcarpeta donde realmente reside tu aplicación de Next.js
-WORKDIR /app/alexa_emergency
-
-# Instalar módulos de Node y compilar Next.js
+# Instalar módulos de Node y compilar Next.js (Se ejecuta directo en /app)
 RUN pnpm install && pnpm build
 
 # Exponer el puerto por defecto de Next.js
 EXPOSE 3000
 
-# Script de inicio (Corregida la sintaxis del filtro jq para evitar errores en las comillas)
+# Script de inicio que genera el archivo .env.local a partir de la interfaz de Home Assistant
 CMD ["/bin/bash", "-c", "if [ -f /data/options.json ]; then jq -r 'to_entries | .[] | \"\\(.key)=\\(.value)\"' /data/options.json > .env.local; fi && pnpm dev"]
