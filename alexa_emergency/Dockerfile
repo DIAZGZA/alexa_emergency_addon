@@ -16,16 +16,17 @@ RUN npm install -g pnpm@10
 # Establecer el directorio base dentro del contenedor
 WORKDIR /workspace
 
-# Evitar el uso de la caché para asegurar que descargue tus últimos archivos
-ARG CACHE_BUST=7
+# CAMBIO CLAVE: Usamos un número de caché único (9) para obligar a Docker a clonar de nuevo
+ARG CACHE_BUST=9
 RUN git clone https://github.com/DIAZGZA/alexa_emergency_addon .
 
 # Moverse exactamente a la carpeta donde residen tu package.json y tu directorio app/
 WORKDIR /workspace/alexa_emergency
 
-# Forzar la aprobación de ejecuciones de scripts durante la instalación limpia de dependencias
+# Configurar pnpm mediante variables de entorno globales compatibles para omitir bloqueos de seguridad
 RUN pnpm config set side-effects-cache false && \
-    pnpm install --no-frozen-lockfile --only-allow-built-dependencies && \
+    pnpm config set ignore-scripts false && \
+    pnpm install --no-frozen-lockfile && \
     pnpm build
 
 # Exponer el puerto por defecto de Next.js
