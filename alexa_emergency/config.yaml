@@ -5,19 +5,17 @@ description: "Asistente de seguridad que detecta caídas y alertas usando el mic
 url: "https://github.com/DIAZGZA/alexa_emergency_addon"
 arch:
   - amd64
-  - armv7
   - aarch64
 init: false
 ingress: true
 ingress_port: 3000
-webui: true
 homeassistant_api: true
 audio: true
 startup: "services"
 options:
   NOTIFIER_PROVIDER: "local"
 schema:
-  NOTIFIER_PROVIDER: "list(local|telegram)?"
+  NOTIFIER_PROVIDER: "str?"
   TELEGRAM_BOT_TOKEN: "str?"
   TELEGRAM_BOT_USERNAME: "str?"
   TELEGRAM_WEBHOOK_SECRET: "str?"
