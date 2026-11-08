@@ -1,5 +1,5 @@
 name: "Alexa Emergency System"
-version: "1.0.2"
+version: "1.0.3"
 slug: "alexa_emergency"
 description: "Asistente de seguridad que detecta caídas y alertas usando el micrófono"
 url: "https://github.com/DIAZGZA/alexa_emergency_addon"
