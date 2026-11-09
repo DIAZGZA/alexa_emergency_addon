@@ -16,8 +16,8 @@ RUN npm install -g pnpm@10
 # Establecer el directorio base dentro del contenedor
 WORKDIR /workspace
 
-# CAMBIO CLAVE: Usamos un número de caché único (9) para obligar a Docker a clonar de nuevo
-ARG CACHE_BUST=9
+# CAMBIO AQUÍ: Subimos a 10 para obligar a Docker a descargar el archivo nuevo sin usar caché
+ARG CACHE_BUST=10
 RUN git clone https://github.com/DIAZGZA/alexa_emergency_addon .
 
 # Moverse exactamente a la carpeta donde residen tu package.json y tu directorio app/
